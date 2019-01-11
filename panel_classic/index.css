@@ -1,0 +1,14 @@
+#chart text.title {
+    font-size:16px;
+    transform: translateY(20px);
+}
+
+#chart text.current {
+    font-size: 64px;
+    transform: translateY(100px);
+}
+
+#chart text.delta {
+    font-size: 20px;
+    transform: translateY(130px);
+}
