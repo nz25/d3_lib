@@ -1,20 +1,26 @@
-const dims = { height: pbi.width, width: pbi.height, radius: pbi.width / 2 };
-const cent = { x: dims.width / 2 + 5, y: dims.height / 2 + 5 };
+// dimensions
+
+var dims = { height: pbi.width, width: pbi.height, radius: pbi.width / 2 };
+var margin = 5;
+var donut_dims = {height: pbi.height - 5};
+var outerRadius = (Math.min(pbi.width, pbi.height) - 2 * margin) / 2;
+var innerRadius = outerRadius * 0.8;
+
+var cent = { x: dims.width / 2 + 5, y: dims.height / 2 + 5 };
 
 var svg = d3.select('#chart')
-    .attr('width', dims.width)
-    .attr('height', dims.height);
+    .attr('width', pbi.width)
+    .attr('height', pbi.height);
 
 var graph = svg.append('g')
     .attr('transform', 'translate(' + cent.x + ',' + cent.y + ')');
 
 var pie = d3.layout.pie()
-    .sort(null)
     .value(function (d) {return d.ratio_current});
 
 var arcPath = d3.svg.arc()
-    .outerRadius(dims.radius)
-    .innerRadius(dims.radius / 2);
+    .outerRadius(outerRadius)
+    .innerRadius(innerRadius);
 
 var title = svg.append('text')
     .attr('class', 'title');
@@ -26,6 +32,26 @@ var delta = svg.append('text')
     .attr('class', 'delta');
 
 pbi.dsv(function (data) {
+
+    // creating pie data
+    var current_data = [
+        {ratio_current: parseFloat(data[0].ratio_current)},
+        {ratio_current: 100 - data[0].ratio_current}
+    ];
+
+    // join enhanced (pie) data to path elements
+    const paths = graph.selectAll('path')
+        .data(pie(current_data));
+
+    // handle the enter selection
+    paths.enter()
+        .append('path')
+            .attr('class', 'arc')
+            .attr('stroke', '#fff')
+            .attr('stroke-width', 3)
+            .attr('fill', 'blue')
+            .attr('d', function(d) {return arcPath(d)})
+            .each(function(d) { this._current = d })
 
     svg.select('.title')
         .data(data)
@@ -60,3 +86,4 @@ pbi.dsv(function (data) {
             };
         });
 });
+

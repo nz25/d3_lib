@@ -1,6 +1,6 @@
 #chart text.title {
     font-size:16px;
-    transform: translateY(20px);
+    transform: translate(100px, 20px);
 }
 
 #chart text.current {
