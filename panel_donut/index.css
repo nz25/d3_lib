@@ -1,14 +1,18 @@
+#chart {
+    font-family: 'Arial';
+}
+
 #chart text.title {
-    font-size:16px;
-    transform: translate(100px, 20px);
+    font-size:14px;
+    transform: translate(10px, 20px);
 }
 
 #chart text.current {
     font-size: 64px;
-    transform: translateY(100px);
+    transform: translate(40px, 150px);
 }
 
 #chart text.delta {
     font-size: 20px;
-    transform: translateY(130px);
+    transform: translate(80px, 180px);
 }

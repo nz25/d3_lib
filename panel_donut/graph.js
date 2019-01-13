@@ -1,26 +1,24 @@
-// dimensions
+// hard-coding dimensions
 
-var dims = { height: pbi.width, width: pbi.height, radius: pbi.width / 2 };
-var margin = 5;
-var donut_dims = {height: pbi.height - 5};
-var outerRadius = (Math.min(pbi.width, pbi.height) - 2 * margin) / 2;
-var innerRadius = outerRadius * 0.8;
-
-var cent = { x: dims.width / 2 + 5, y: dims.height / 2 + 5 };
+var graph_dims = {height: 230, width: 200},
+    donut_dims = {centX: 100, centY: 130,
+        innerRadius: 80, outerRadius: 100}
 
 var svg = d3.select('#chart')
-    .attr('width', pbi.width)
-    .attr('height', pbi.height);
+    .attr('width', graph_dims.width)
+    .attr('height', graph_dims.height);
 
 var graph = svg.append('g')
-    .attr('transform', 'translate(' + cent.x + ',' + cent.y + ')');
+    .attr('transform', 'translate(' + donut_dims.centX + ',' + donut_dims.centY + ')');
 
 var pie = d3.layout.pie()
     .value(function (d) {return d.ratio_current});
 
 var arcPath = d3.svg.arc()
-    .outerRadius(outerRadius)
-    .innerRadius(innerRadius);
+    .outerRadius(donut_dims.outerRadius)
+    .innerRadius(donut_dims.innerRadius);
+
+var colors = ['#0066B3', 'white'];
 
 var title = svg.append('text')
     .attr('class', 'title');
@@ -32,6 +30,7 @@ var delta = svg.append('text')
     .attr('class', 'delta');
 
 pbi.dsv(function (data) {
+
 
     // creating pie data
     var current_data = [
@@ -49,7 +48,7 @@ pbi.dsv(function (data) {
             .attr('class', 'arc')
             .attr('stroke', '#fff')
             .attr('stroke-width', 3)
-            .attr('fill', 'blue')
+            .attr('fill', 'grey')
             .attr('d', function(d) {return arcPath(d)})
             .each(function(d) { this._current = d })
 
